@@ -23,32 +23,6 @@ const reviewSchema = new mongoose.Schema({
   reported: Boolean
 })
 
-const photoSchema = new mongoose.Schema({
-  review_id: Number,
-  url: String
-})
-const Photos = mongoose.model('Photos', photoSchema);
-
-const characteristicsSchema = new mongoose.Schema({
-  characteristic_id: Number,
-  product_id: Number,
-  name: String,
-})
-
-const characteristicReviewsSchema = new mongoose.Schema({
-  placeholder_id: Number,
-  characteristic_id: Number,
-  review_id: Number,
-  value: Number
-})
-const Characteristics = mongoose.model('Characteristics', characteristicsSchema);
-const CharacteristicsReviews = mongoose.model('CharacteristicsReviews', characteristicReviewsSchema);
-
 const Reviews = mongoose.model('Reviews', reviewSchema);
 
-module.exports = {
-  Reviews,
-  Characteristics,
-  CharacteristicsReviews,
-  Photos
-}
+module.exports = Reviews

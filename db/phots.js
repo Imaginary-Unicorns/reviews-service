@@ -12,16 +12,4 @@ const photoSchema = new mongoose.Schema({
 })
 const Photos = mongoose.model('Photos', photoSchema);
 
-let photos = fs.createReadStream('/Users/ojeikuaisiku/Documents/HackReactor/SDC/reviews-service/photos/reviews_photos-6.csv');
-
-let count = 0
-photos.pipe(parse({delimiter: ','})).on('data', data => {
-  let newPhoto = new Photos({
-    review_id: data.review_id,
-    url: data.url
-  })
-  newPhoto.save()
-  .then(data => {
-  })
-  .catch(err => console.error(err))
-})
+module.exports = Photos

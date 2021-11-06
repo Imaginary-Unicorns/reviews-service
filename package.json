@@ -20,7 +20,8 @@
   "homepage": "https://github.com/Imaginary-Unicorns/reviews-service#readme",
   "devDependencies": {
     "eslint": "^8.0.1",
-    "jest": "^27.2.5"
+    "jest": "^27.2.5",
+    "supertest": "^6.1.6"
   },
   "dependencies": {
     "csv-parser": "^3.0.0",

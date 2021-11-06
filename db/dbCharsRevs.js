@@ -6,23 +6,29 @@ async function main() {
 const fs = require('fs');
 const parse = require('csv-parser')
 
-const characteristicsSchema = new mongoose.Schema({
+const characteristicReviewsSchema = new mongoose.Schema({
+  placeholder_id: Number,
   characteristic_id: Number,
-  product_id: Number,
-  name: String,
+  review_id: Number,
+  value: Number
 })
-const Characteristics = mongoose.model('Characteristics', characteristicsSchema);
+const CharacteristicsReviews = mongoose.model('CharacteristicsReviews', characteristicReviewsSchema);
 
-let characteristics = fs.createReadStream('/Users/ojeikuaisiku/Documents/HackReactor/SDC/reviews-service/chars/characteristics-17.csv');
+let characteristics = fs.createReadStream('/Users/ojeikuaisiku/Documents/HackReactor/SDC/reviews-service/CharRevs/characteristic_reviews-1.csv');
 
 characteristics.pipe(parse({delimiter: ','})).on('data', data => {
-  let newChar = new Characteristics({
-    characteristic_id: data.id,
-    product_id: data.product_id,
-    name: data.name,
+  let newReview = new CharacteristicsReviews({
+    placeholder_id: data.id,
+    characteristic_id: data.characteristic_id,
+    review_id: data.review_id,
+    value: data.value
   })
-  newChar.save()
+  newReview.save()
+  .catch(err => {
+    console.error(err)
+  })
 })
+
 /*
 characteristics.pipe(parse({delimiter: ','})).on('data', data => {
   characteristicReviews.pipe(parse({delimiter: ','})).on('data', fileData => {
