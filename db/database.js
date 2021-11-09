@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/reviews');
+  await mongoose.connect('mongodb://localhost:27017/reviews')
+    .then(data => console.log(`Connected to Mongoose at port ${27017}`));
 };
 const fs = require('fs');
 const parse = require('csv-parser')

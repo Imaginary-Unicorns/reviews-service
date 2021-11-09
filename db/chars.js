@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-main().catch(err => console.log(err));
-async function main() {
-  await mongoose.connect('mongodb://localhost:27017/characteristics');
-};
+const conn = mongoose.createConnection('mongodb://localhost:27017/allReviews')
+    .once('open', ()=> console.log(`Connected to Characteristics DB`));
 const fs = require('fs');
 const parse = require('csv-parser')
 
@@ -18,10 +16,15 @@ const characteristicReviewsSchema = new mongoose.Schema({
   review_id: Number,
   value: Number
 })
+
+characteristicsSchema.index({product_id:1})
+characteristicReviewsSchema.index({review_id:1})
+
 const Characteristics = mongoose.model('Characteristics', characteristicsSchema);
 const CharacteristicsReviews = mongoose.model('CharacteristicsReviews', characteristicReviewsSchema);
 
 module.exports = {
-  Characteristics,
-  CharacteristicsReviews
+  conn,
+  characteristicsSchema,
+  characteristicReviewsSchema
 }

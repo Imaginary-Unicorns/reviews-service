@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-main().catch(err => console.log(err));
-async function main() {
-  await mongoose.connect('mongodb://localhost:27017/reviews');
-};
+// main().catch(err => console.log(err));
+// async function main() {
+  const conn = mongoose.createConnection('mongodb://localhost:27017/allReviews')
+  .once('open', ()=> console.log(`Connected to allReviews DB`));
+// };
 const fs = require('fs');
 const parse = require('csv-parser')
 // import { csvToDB } from 'csvToDB';
@@ -15,14 +16,29 @@ const reviewSchema = new mongoose.Schema({
   summary: String,
   recommend: Boolean,
   response: String,
+  rating: Number,
   body: String,
   date: Date,
   reviewer_name: String,
   reviewer_email: String,
   helpfulness: Number,
-  reported: Boolean
+  reported: Boolean,
+  photos: [],
+  characteristics: {
+    size: Number,
+    width: Number,
+    comfort: Number,
+    quality: Number,
+    length: Number,
+    fit: Number
+  }
 })
+
+reviewSchema.index({product_id:1})
 
 const Reviews = mongoose.model('Reviews', reviewSchema);
 
-module.exports = Reviews
+module.exports = {
+  conn,
+  reviewSchema
+}

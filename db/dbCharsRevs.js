@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/reviews');
+  await mongoose.connect('mongodb://localhost:27017/newreviews');
 };
 const fs = require('fs');
 const parse = require('csv-parser')
@@ -14,7 +14,7 @@ const characteristicReviewsSchema = new mongoose.Schema({
 })
 const CharacteristicsReviews = mongoose.model('CharacteristicsReviews', characteristicReviewsSchema);
 
-let characteristics = fs.createReadStream('/Users/ojeikuaisiku/Documents/HackReactor/SDC/reviews-service/CharRevs/characteristic_reviews-1.csv');
+let characteristics = fs.createReadStream('/Users/ojeikuaisiku/Documents/HackReactor/SDC/reviews-service/CharRevs/characteristic_reviews-39.csv');
 
 characteristics.pipe(parse({delimiter: ','})).on('data', data => {
   let newReview = new CharacteristicsReviews({
@@ -28,6 +28,8 @@ characteristics.pipe(parse({delimiter: ','})).on('data', data => {
     console.error(err)
   })
 })
+
+characteristics.on('end', ()=> console.log('done.'))
 
 /*
 characteristics.pipe(parse({delimiter: ','})).on('data', data => {

@@ -2,64 +2,54 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const database = require("../db/database.js");
-// const chars = require("../db/chars.js");
+const controllers = require("../db/controllers/controllers.js");
+const chars = require("../db/chars.js");
+const revs = require("../db/revs.js");
+const phots = require("../db/phots.js");
 const port = 3333;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/test', (req, res) => {
-  res.send('success')
-})
+/*
+MODELS
+*/
+const Characteristics = chars.conn.model('Characteristics', chars.characteristicsSchema);
+const CharacteristicsReviews = chars.conn.model('CharacteristicsReviews', chars.characteristicReviewsSchema);
+const Reviews = revs.conn.model('Reviews', revs.reviewSchema);
+const Photos = phots.conn.model('Photos', phots.photoSchema);
 
 app.get('/reviews', (req, res) => {
-  let obj = {};
-  let count;
-  // console.log('query', req.query, typeof req.query.count)
-  count = Number.parseInt(req.query.count, 10);
-  database.Reviews.find({ product_id: req.query.product_id }).lean().limit(count)
-  .then(async reviews => {
-    // console.log('reviews', reviews)
-    obj.results = reviews
-    // console.log(obj)
-    // res.send(obj)
+  controllers.getAllReviews(req, res, (data) => {
+    res.status(200).send({ results: data })
   })
-  .then(async reviews => {
-    obj.results.map(review => {
-      database.Photos.find({review_id: 325}).then(photos => {
-        return review.photos = photos
-      });
-      // database.Photos.count({}, (err, count) => console.log('photos', count))
-    });
-    return obj
-  })
-  .then(revs => {
-    // console.log('this is it', revs)
-    res.send(revs);
-  })
-  .catch(err => res.send(err))
+  // result.then(data => console.log(data))
 })
 
 app.get('/reviews/meta', (req, res) => {
-  // let obj = {};
-  // let count;
-  // console.log('query', req.query, typeof req.query.count)
-  // count = Number.parseInt(req.query.count, 10);
-  database.CharacteristicsReviews.count({}, (err, count) => {
-    console.log(count)
+  controllers.getMeta(req, res, data => {
+    res.status(200)
   })
-  // .then(data => {
-  //   console.log('mete', data)
-  //   res.send(data)
-  // })
-  // .then(async reviews => {
-  //   obj.map(review => {
-  //     database.Photos.find({review_id: review.review_id}).then(photos => review.photos = photos);
-  //   });
-  //   await res.send(obj);
-  // })
-  .catch(err => res.send(err))
+
+})
+
+app.post('/reviews', (req, res) => {
+  controllers.saveReview(req, res, data => {
+    console.log(data)
+    res.status(200).send(data)
+  })
+})
+
+app.put('/reviews/*/helpful', (req, res) => {
+  Reviews.findOneAndUpdate({review_id: req.body.review_id}, {$inc : {'helpfulness' : 1}})
+    .then(end => res.status(200).send('OK'))
+  })
+
+app.put('/reviews/*/report', (req, res) => {
+  console.log('reporting...', req.body)
+  Reviews.findOneAndUpdate({review_id: req.body.review_id}, {$set: {reported: true}}, (err, end) => {
+    res.status(200).send('OK');
+  });
 })
 
 module.exports = app.listen(port, () => {
