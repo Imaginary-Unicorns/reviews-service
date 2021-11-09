@@ -125,8 +125,21 @@ const saveReview = (req, res, callback) => {
       helpfulness: req.body.helpfulness,
       reported: req.body.reported
     })
-    newReview.save().then(data => res.status(200).send(data));
-
+    newReview.save().then(confirm => {
+      if (req.body.photos.length > 0) {
+        let newPhotos = new Photos({
+          review_id: data + 1,
+          photos: req.body.photos
+        })
+        newPhotos.save().then(sent => {
+          console.log('New Review Saved.', confirm, sent)
+          res.status(200).send('New Review Saved.')
+        })
+      } else {
+        console.log('New review saved with no photos.')
+        res.send(200)
+      }
+    });
   })
 }
 
