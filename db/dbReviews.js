@@ -42,6 +42,7 @@ readStream.pipe(parse({delimiter: ','})).on('data', data => {
     reported: data.reported
   })
   newReview.save();
+  console.log(count)
   count++
 })
 

@@ -30,7 +30,6 @@ app.get('/reviews/meta', (req, res) => {
   controllers.getMeta(req, res, data => {
     res.status(200)
   })
-
 })
 
 app.post('/reviews', (req, res) => {

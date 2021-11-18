@@ -87,17 +87,17 @@ const getMeta = (req, res, callback) => {
           }
         }
       }
-    },
-    {
-      $group: {
-        product_id: 1,
-        id: '$characteristic_id',
-        name: 1,
-        placeholderChars: 1,
-        rating: 1,
-        recommendations: 1
-      }
     }
+    // {
+    //   $group: {
+    //     product_id: 1,
+    //     id: '$characteristic_id',
+    //     name: 1,
+    //     placeholderChars: 1,
+    //     rating: 1,
+    //     recommendations: 1
+    //   }
+    // }
   ];
   Characteristics.aggregate(pipeline).exec()
     .then(data => {
