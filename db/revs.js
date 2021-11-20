@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // main().catch(err => console.log(err));
 // async function main() {
-  const conn = mongoose.createConnection('mongodb://54.227.3.116/allReviews')
+  const conn = mongoose.createConnection('mongodb://3.88.158.202/allReviews')
   .once('open', ()=> console.log(`Connected to allReviews DB`));
 // };
 const fs = require('fs');
