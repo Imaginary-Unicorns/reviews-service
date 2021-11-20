@@ -7,6 +7,8 @@ const chars = require("../db/chars.js");
 const revs = require("../db/revs.js");
 const phots = require("../db/phots.js");
 const port = 3333;
+var redisClient = require('redis').createClient;
+var redis = redisClient(6379, 'localhost');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +20,8 @@ const Characteristics = chars.conn.model('Characteristics', chars.characteristic
 const CharacteristicsReviews = chars.conn.model('CharacteristicsReviews', chars.characteristicReviewsSchema);
 const Reviews = revs.conn.model('Reviews', revs.reviewSchema);
 const Photos = phots.conn.model('Photos', phots.photoSchema);
+
+app.get('/', (req, res) => res.sendStatus(200))
 
 app.get('/reviews', (req, res) => {
   console.log('getting reviews for client')
