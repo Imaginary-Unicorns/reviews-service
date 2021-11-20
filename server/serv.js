@@ -21,7 +21,7 @@ const CharacteristicsReviews = chars.conn.model('CharacteristicsReviews', chars.
 const Reviews = revs.conn.model('Reviews', revs.reviewSchema);
 const Photos = phots.conn.model('Photos', phots.photoSchema);
 
-app.get('/', (req, res) => res.sendStatus(200));
+app.get('/', (req, res) => res.sendStatus(200))
 
 app.get('/reviews', (req, res) => {
   console.log('getting reviews for client')
