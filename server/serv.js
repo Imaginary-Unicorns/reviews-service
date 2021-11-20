@@ -7,8 +7,6 @@ const chars = require("../db/chars.js");
 const revs = require("../db/revs.js");
 const phots = require("../db/phots.js");
 const port = 3333;
-var redisClient = require('redis').createClient;
-var redis = redisClient(6379, 'localhost');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
