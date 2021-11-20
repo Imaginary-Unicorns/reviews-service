@@ -20,6 +20,7 @@ const Reviews = revs.conn.model('Reviews', revs.reviewSchema);
 const Photos = phots.conn.model('Photos', phots.photoSchema);
 
 app.get('/reviews', (req, res) => {
+  console.log('getting reviews for client')
   controllers.getAllReviews(req, res, (data) => {
     console.log('successful from deployment', data)
     res.status(200).send({ results: data })
