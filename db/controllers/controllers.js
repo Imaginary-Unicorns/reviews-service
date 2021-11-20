@@ -12,6 +12,7 @@ const Reviews = revs.conn.model('Reviews', revs.reviewSchema);
 const Photos = phots.conn.model('Photos', phots.photoSchema);
 
 const getAllReviews = (req, res, callback)=> {
+
   let pipeline = [
     {
       $match: {
@@ -38,6 +39,13 @@ const getAllReviews = (req, res, callback)=> {
   ];
   return Reviews.aggregate(pipeline).exec()
     .then(data => callback(data))
+
+  //  console.log('loading...')
+  //  return Reviews.findOne()
+  //    .then(data => {
+  //     console.log(data)
+  //     callback(data)
+  //     })
 }
 
 const getMeta = (req, res, callback) => {

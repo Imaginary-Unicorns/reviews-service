@@ -21,6 +21,7 @@ const Photos = phots.conn.model('Photos', phots.photoSchema);
 
 app.get('/reviews', (req, res) => {
   controllers.getAllReviews(req, res, (data) => {
+    console.log('successful from deployment', data)
     res.status(200).send({ results: data })
   })
   // result.then(data => console.log(data))

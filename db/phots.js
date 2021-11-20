@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const conn = mongoose.createConnection('mongodb://localhost:27017/allReviews')
-    .once('open', ()=> console.log(`Connected to Photos DB`));
+const conn = mongoose.createConnection('mongodb://52.204.197.248:27017/allReviews')
+    .once('open', ()=> console.log(`Connected to Photos`));
 const fs = require('fs');
 const parse = require('csv-parser')
 
