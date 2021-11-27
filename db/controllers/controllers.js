@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const chars = require("../chars.js");
 const revs = require("../revs.js");
 const phots = require("../phots.js");
+const redisClient = require('redis').createClient;
+const redis = redisClient(6379, 'localhost');
 
 /*
 MODELS
@@ -37,8 +39,22 @@ const getAllReviews = (req, res, callback)=> {
       $limit: Number.parseInt(req.query.count)
     }
   ];
-  return Reviews.aggregate(pipeline).exec()
-    .then(data => callback(data))
+
+  redis.get(req.query.product_id, (err, reply) => {
+    if (err) {
+      callback(err)
+    } else if (reply) {
+      callback(JSON.parse(reply))
+    } else {
+      return Reviews.aggregate(pipeline).exec()
+        .then(data => {
+          redis.set(req.query.product_id, data, (data)=>{
+            callback(data)
+          })
+        })
+    }
+  })
+
 
   //  console.log('loading...')
   //  return Reviews.findOne()
