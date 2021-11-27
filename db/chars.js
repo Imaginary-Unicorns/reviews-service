@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const conn = mongoose.createConnection('mongodb://3.88.158.202:27017/allReviews')
+const conn = mongoose.createConnection('mongodb://54.227.3.116:27017/allReviews')
     .once('open', ()=> console.log(`Connected to Characteristics`));
 const fs = require('fs');
 const parse = require('csv-parser')
