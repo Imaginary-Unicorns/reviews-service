@@ -44,14 +44,14 @@ const getAllReviews = (req, res, callback)=> {
     if (err) {
       callback(err)
     } else if (reply) {
-      console.log('here is the cache', reply)
-      callback(JSON.parse(reply.args))
+      console.log('here is the cache', JSON.parse(reply))
+      callback(JSON.parse(reply))
     } else {
       return Reviews.aggregate(pipeline).exec()
         .then(data => {
           redis.set(req.query.product_id, data, (data)=>{
             console.log('caching...', data)
-            callback(JSON.stringify(data))
+            callback(data)
           })
         })
     }
